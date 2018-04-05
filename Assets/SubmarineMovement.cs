@@ -5,24 +5,31 @@ using UnityEngine;
 public class SubmarineMovement : MonoBehaviour {
 
 	public float speed;
+	public float baseSpeed;
+	public float fullSpeed;
 	public int direction;
 	public Transform camTransform;
 	public Vector3 startPos;
 	public GameObject missileObject;
 	public Transform missileSpawn;
+	public GameObject bombObject;
+	public Transform bombSpawn;
+	public Rigidbody2D myRigid;
 
 	// Use this for initialization
 	void Start () {
-		
+		myRigid = gameObject.GetComponent<Rigidbody2D> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		GetControls ();
 		Move ();
-		camTransform.position = new Vector3 (transform.position.x + 12, transform.position.y, -10);
+		camTransform.position = new Vector3 (transform.position.x + 15, transform.position.y, -10);
 		if (Input.GetKeyDown (KeyCode.Space)) {
-			Shoot ();
+			ShootMissile ();
+		} else if (Input.GetKeyDown (KeyCode.M)) {
+			RaiseBomb ();
 		}
 	}
 
@@ -37,15 +44,14 @@ public class SubmarineMovement : MonoBehaviour {
 	}
 
 	void Move(){
-		Rigidbody2D myRigid = gameObject.GetComponent<Rigidbody2D> ();
 		if (Input.GetKey (KeyCode.D)) {
-			myRigid.velocity = new Vector2 (1 * speed, direction * speed);
+			myRigid.velocity = new Vector2 (1 * fullSpeed, direction * fullSpeed);
 		} else {
-			myRigid.velocity = new Vector2 (0, 0);
+			myRigid.velocity = new Vector2 (1 * baseSpeed, direction * baseSpeed);
 		}
 		Quaternion original = Quaternion.Euler (0, 0, 0);
 		Quaternion newQ = Quaternion.Euler (0, 0, 30 * direction);
-		transform.rotation = Quaternion.Lerp(original, newQ, Time.time * 1);
+		transform.rotation = Quaternion.Lerp(original, newQ, Time.deltaTime * 5);
 	}
 
 	public void OnTriggerEnter2D(Collider2D collision){
@@ -58,8 +64,13 @@ public class SubmarineMovement : MonoBehaviour {
 		transform.position = startPos;
 	}
 
-	public void Shoot(){
+	public void ShootMissile(){
 		GameObject missile = (GameObject)Instantiate (missileObject, missileSpawn.position, transform.localRotation);
 		missile.GetComponent<Rigidbody2D> ().velocity = missile.transform.right * 15;
+	}
+
+	public void RaiseBomb(){
+		GameObject bomb = (GameObject)Instantiate (bombObject, bombSpawn.position, bombObject.transform.rotation);
+		bomb.GetComponent<Rigidbody2D> ().velocity = Vector2.up * 10;
 	}
 }

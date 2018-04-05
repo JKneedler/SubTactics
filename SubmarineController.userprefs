@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/SubmarineMovement.cs">
     <Files>
-      <File FileName="Assets/SubmarineMovement.cs" Line="39" Column="42" />
+      <File FileName="Assets/SubmarineMovement.cs" Line="10" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
