@@ -16,6 +16,12 @@ public class SubmarineMovement : MonoBehaviour {
 	public Transform bombSpawn;
 	public Rigidbody2D myRigid;
 
+	//angle in degrees to linearly-interpolatedly rotate to
+	Quaternion targetRotation = Quaternion.Euler(0,0,0);
+	//scale of rotation speed
+	private float rotationSpeed = 10f;
+	private float maxRotationAngle = 15f;
+
 	// Use this for initialization
 	void Start () {
 		myRigid = gameObject.GetComponent<Rigidbody2D> ();
@@ -31,6 +37,8 @@ public class SubmarineMovement : MonoBehaviour {
 		} else if (Input.GetKeyDown (KeyCode.M)) {
 			RaiseBomb ();
 		}
+
+		transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 	}
 
 	void GetControls(){
@@ -49,9 +57,7 @@ public class SubmarineMovement : MonoBehaviour {
 		} else {
 			myRigid.velocity = new Vector2 (1 * baseSpeed, direction * baseSpeed);
 		}
-		Quaternion original = Quaternion.Euler (0, 0, 0);
-		Quaternion newQ = Quaternion.Euler (0, 0, 30 * direction);
-		transform.rotation = Quaternion.Lerp(original, newQ, Time.deltaTime * 5);
+		targetRotation = Quaternion.Euler (0, 0, maxRotationAngle * direction);
 	}
 
 	public void OnTriggerEnter2D(Collider2D collision){
