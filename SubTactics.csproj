@@ -235,6 +235,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\scripts\Cannon.cs" />
     <Compile Include="Assets\scripts\Missile.cs" />
     <Compile Include="Assets\scripts\SubmarineMovement.cs" />
   </ItemGroup>
