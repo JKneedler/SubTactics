@@ -10,8 +10,6 @@ public class SubmarineMovement : MonoBehaviour {
 	public int direction;
 	public Transform camTransform;
 	public Vector3 startPos;
-	public GameObject missileObject;
-	public Transform missileSpawn;
 	public GameObject bombObject;
 	public Transform bombSpawn;
 	public Rigidbody2D myRigid;
@@ -32,9 +30,7 @@ public class SubmarineMovement : MonoBehaviour {
 		GetControls ();
 		Move ();
 		camTransform.position = new Vector3 (transform.position.x + 15, transform.position.y, -10);
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			ShootMissile ();
-		} else if (Input.GetKeyDown (KeyCode.M)) {
+		if (Input.GetKeyDown (KeyCode.M)) {
 			RaiseBomb ();
 		}
 
@@ -68,11 +64,6 @@ public class SubmarineMovement : MonoBehaviour {
 
 	public void NewGame(){
 		transform.position = startPos;
-	}
-
-	public void ShootMissile(){
-		GameObject missile = (GameObject)Instantiate (missileObject, missileSpawn.position, transform.localRotation);
-		missile.GetComponent<Rigidbody2D> ().velocity = missile.transform.right * 15;
 	}
 
 	public void RaiseBomb(){

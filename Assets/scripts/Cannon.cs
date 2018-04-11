@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Cannon : MonoBehaviour {
 
+	public GameObject missileObject;
+
 	private int rotationDirection = 0;
 	//angle in degrees to linearly-interpolatedly rotate to
 	float currentAngle = 0;
 	//scale of rotation speed
 	private float rotationSpeed = 200f;
 	private float maxRotationAngle = 15f;
+
+	private float  missileSpeed = 20f;
 
 	private Vector3 cannonPositionRelToPlayer;
 
@@ -33,5 +37,13 @@ public class Cannon : MonoBehaviour {
 		} else {
 			rotationDirection = 0;
 		}
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			ShootMissile ();
+		}
+	}
+
+	public void ShootMissile() {
+		GameObject missile = (GameObject)Instantiate (missileObject, transform.position, transform.rotation);
+		missile.GetComponent<Rigidbody2D> ().velocity = missile.transform.right * missileSpeed;
 	}
 }
